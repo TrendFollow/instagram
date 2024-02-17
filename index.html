@@ -115,6 +115,7 @@
         }
         .selected{
             border-bottom: solid gray 3px;
+            
         }
     </style>
 </head>
@@ -135,17 +136,18 @@
             <img class="circle_pic" src="/image/profile.jpg" alt="">
         </div>
         <div id="profile_info">
-            <div id="id">half_bottle
-                <i class="fas fa-cog"></i>
+            <div id="id">
+                <span>half_bottle</span>
+                <i class="fas fa-cog" style="cursor: pointer;"></i>
             </div>
             <button>프로필 편집</button>
         </div>
     </div>
 
     <div>
-        <p><strong>반병현 (Byunghyun Ban)</strong><br>
-        작가</p>
-        <p><a href="https://needleworm.github.io">needleworm.gihub.io</a></p>
+        <p><strong id="userInfo">반병현 (Byunghyun Ban)</strong><br>
+        <span id="summary">작가</span></p>
+        <p id="profileDetail"><a href="https://needleworm.github.io">needleworm.gihub.io</a></p>
     </div>
 
     <div id="highlight_area">
@@ -194,5 +196,52 @@
         <img src="/image/thumbnails/9.jpg"  alt="" class="thumbnail">
     </div>
 
+
+    <script>
+        let configID= document.querySelector("#profile_info #id i");
+        let idText = document.querySelector("#id span");
+
+        configID.addEventListener("click", function () {
+            idText.innerHTML = prompt("새로운 아이디를 입력하세요")
+        })
+
+        let profileEditButton = document.querySelector("#profile button");
+        let userInfo = document.querySelector("#userInfo");
+        let summary = document.querySelector("#summary");
+        let profileDetail = document.querySelector("#profileDetail");
+        let changing = false;
+
+        profileEditButton.addEventListener("click",function (event) {
+            if(changing){
+                let _userInfo = userInfo.querySelector("input").value
+                let _summary = summary.querySelector("input").value
+                let _profileDetail = profileDetail.querySelector("input").value
+
+                userInfo.innerHTML = _userInfo;
+                summary.innerHTML = _summary;
+                if(_profileDetail.startsWith("http")){
+                    _profileDetail = "<a href="+_profileDetail + ">" + _profileDetail + "</a>";
+                }
+
+                profileDetail.innerHTML = _profileDetail
+
+                event.target.textContent = "프로필 편집";
+                changing = false;
+            }else{
+                let _userInfo = userInfo.textContent;
+                let _summary = summary.textContent;
+                let _profileDetail = profileDetail.textContent;
+
+                userInfo.innerHTML = "<input value=" + _userInfo + "></input>"
+                summary.innerHTML = "<input value=" + _summary + "></input>"
+                profileDetail.innerHTML = "<input value=" + _profileDetail + "></input>"
+
+                event.target.textContent = "프로필 편집 완료"
+                changing = true
+            }
+        })
+
+
+    </script>
 </body>
 </html>
